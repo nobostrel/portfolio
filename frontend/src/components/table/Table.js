@@ -2,25 +2,28 @@ import React, { Component } from 'react';
 import './Table.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { sendRequestActionTable } from '../../actions/index';
+import { sendRequestActionTable, currentPageChangeAction } from '../../actions/index';
+import { Pagination } from 'antd';
 
 const uuidv4 = require('uuid/v4');
 
 class TableContainer extends Component {
-    state = {
-        listCount: 10,
-        dataLength: Math.ceil(this.props.data.length / this.state.listCount),
-        pages: []
-    }
-
+    
     componentDidMount() {
         this.props.sendRequest('https://jsonplaceholder.typicode.com/posts');
+    }
+
+    listHandler = (currentPage, countOfPages) => {
+        this.props.changeCurrentPage(currentPage, countOfPages);
     }
 
     render() {
         return (
             <div className='table-wrapper'>
-               
+                <div className='pagination-wrapper'>
+                    <Pagination showQuickJumper size='small' onChange={this.listHandler} pageSize={10} 
+                        defaultCurrent={1} total={this.props.data.length} />
+                </div>
                 <table className='mainTable'>
                         <thead>
                             <tr>
@@ -31,7 +34,7 @@ class TableContainer extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            { this.props.data.map(item => (
+                            { this.props.currentData.map(item => (
                                 <tr key={uuidv4()}>
                                     <td>{item.id}</td>
                                     <td>{item.userId}</td>
@@ -48,13 +51,15 @@ class TableContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.tableData.data
+        data: state.tableData.data,
+        currentData: state.tableData.currentData
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        sendRequest: bindActionCreators(sendRequestActionTable, dispatch)
+        sendRequest: bindActionCreators(sendRequestActionTable, dispatch),
+        changeCurrentPage: bindActionCreators(currentPageChangeAction, dispatch)
     }
 }
 

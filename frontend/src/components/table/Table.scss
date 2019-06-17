@@ -3,6 +3,7 @@
     table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid red;
+    font-size: 1rem;
 
     th:nth-child(1), th:nth-child(2) {
         width: 10%;
@@ -19,4 +20,12 @@
 .table-wrapper {
     display: flex;
     flex-direction: column;
+}
+
+.pagination-wrapper {
+    margin: 1rem 0 1rem auto;
+}
+
+.anticon {
+    vertical-align: 1px !important;
 }

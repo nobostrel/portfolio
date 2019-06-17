@@ -8,6 +8,7 @@ import { createBrowserHistory } from 'history';
 import { Main } from './components/index.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
+import 'antd/dist/antd.css';
 
 const history = createBrowserHistory();
 
